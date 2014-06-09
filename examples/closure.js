@@ -6,12 +6,13 @@
 (print (+ "4 plus 5 is " ((add 4) 5)))
 
 (let makeCounter
-  (lambda (n)
+  (lambda ()
+    (let n 0)
     (lambda ()
       (set! n (+ n 1))
       n)))
 
-(let count (makeCounter 0))
+(let count (makeCounter))
 
 (print (count))
 (print (count))
