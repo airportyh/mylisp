@@ -22,7 +22,7 @@ ScopeChain.prototype.put = function(key, value){
   this.hash[key] = value
 }
 
-ScopeChain.prototype.push = function(){
+ScopeChain.prototype.new = function(){
   return ScopeChain(this)
 }
 

@@ -11,7 +11,7 @@ test('one level', function(){
 test('two level', function(){
   var s = ScopeChain()
   s.put('name', 'Bob')
-  var ss = s.push()
+  var ss = s.new()
   ss.put('age', 14)
   assert(ss.has('name') === true)
   assert(ss.has('age') === true)
@@ -27,7 +27,7 @@ test('two level', function(){
 test('update should update the parent if hit in parent', function(){
   var s = ScopeChain()
   s.put('name', 'Bob')
-  var ss = s.push()
+  var ss = s.new()
   ss.update('name', 'Dan')
   assert.equal(s.get('name'), 'Dan')
 })

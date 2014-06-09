@@ -24,7 +24,7 @@ function lambda(vars){
   var scope = this
   var bodies = Array.prototype.slice.call(arguments, 1)
   return function(){
-    var newScope = scope.push()
+    var newScope = scope.new()
     for (var i = 0; i < arguments.length; i++){
       var vardef = vars[i]
       newScope.put(vardef.value, arguments[i])
