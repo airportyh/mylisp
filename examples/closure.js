@@ -3,6 +3,7 @@
     (lambda (y)
       (+ x y))))
 
+(print (+ "4 plus 5 is " ((add 4) 5)))
 
 (let makeCounter
   (lambda (n)
