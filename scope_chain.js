@@ -33,3 +33,27 @@ ScopeChain.prototype.update = function(key, value){
     this.parent.put(key, value)
   }
 }
+
+ScopeChain.prototype.toString = function(){
+  var hashes = [this.hash]
+  var cur = this
+  while (cur.parent){
+    cur = cur.parent
+    hashes.push(cur.hash)
+  }
+  return hashes.map(function(hash){
+    return stringify(hash)
+  }).join(' -> ')
+}
+
+function stringify(obj){
+  var parts = []
+  for (var key in obj){
+    if (typeof obj[key] === 'function'){
+      parts.push(key + ': <lambda>')
+    }else{
+      parts.push(key + ': ' + obj[key])
+    }
+  }
+  return parts.length === 0 ? '<empty>' : parts.join('\n')
+}

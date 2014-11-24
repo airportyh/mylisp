@@ -6,6 +6,7 @@ function Tokenizer(str){
   if (!(this instanceof Tokenizer)) return new Tokenizer(str)
   this.str = str
   this.idx = 0
+  this.lineNo = 0
 }
 
 Tokenizer.prototype.next = function(){
@@ -13,6 +14,7 @@ Tokenizer.prototype.next = function(){
   var token = ''
   var numberStr = ''
   var string = ''
+  var self = this
 
   while (this.str.length > this.idx){
     var chr = this.str.charAt(this.idx)
@@ -28,7 +30,11 @@ Tokenizer.prototype.next = function(){
     }else if (chr === ')'){
       if (state === 'open'){
         this.idx++
-        return {type: 'close_paran', value: ')'}
+        return {
+          lineNo: self.lineNo,
+          type: 'close_paran', 
+          value: ')'
+        }
       }else if (state === 'collect_token'){
         return endToken()
       }else if (state === 'collect_number'){
@@ -49,6 +55,9 @@ Tokenizer.prototype.next = function(){
         throw new Error('Illegal state')
       }
     }else if (chr.match(/\s/)){
+      if (chr === '\n'){
+        self.lineNo++
+      }
       if (state === 'open'){
         this.idx++
       }else if (state === 'collect_token'){
@@ -84,6 +93,7 @@ Tokenizer.prototype.next = function(){
         var value = string
         string = ''
         return {
+          lineNo: self.lineNo,
           type: 'string',
           value: value
         }
@@ -103,12 +113,14 @@ Tokenizer.prototype.next = function(){
     state = 'open'
     if (token === 'true'){
       return {
+        lineNo: self.lineNo,
         type: 'boolean',
         value: true
       }
     }
     if (token === 'false'){
       return {
+        lineNo: self.lineNo,
         type: 'boolean',
         value: false
       }
@@ -116,6 +128,7 @@ Tokenizer.prototype.next = function(){
     var value = token
     token = ''
     return {
+      lineNo: self.lineNo,
       type: 'token',
       value: value
     }
